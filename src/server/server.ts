@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from 'cors'
 
 const port = 3001
@@ -12,15 +12,15 @@ type Post = {
     text: string
 }
 
-let posts = []
+let posts: Post[] = []
 
-app.get('/api/posts', (req, res) => {
+app.get('/api/posts', (req: Request, res: Response) => {
     res.status(200).json(posts)
 })
 
 let currentId = 0
 
-app.post('/api/posts', (req, res) => {
+app.post('/api/posts', (req: Request, res: Response) => {
     const {text} = req.body;
     const newPost: Post = {id: currentId, text: text};
     posts.push(newPost);
@@ -28,7 +28,7 @@ app.post('/api/posts', (req, res) => {
     res.status(201).json({msg: 'Post added'});
 })
 
-app.put('/api/posts/:id', (req, res) => {
+app.put('/api/posts/:id', (req: Request, res: Response) => {
     const {id} = req.params;
     const {text} = req.body;
     const updatedPost: Post = {id: Number(id), text: text};
@@ -36,7 +36,7 @@ app.put('/api/posts/:id', (req, res) => {
     res.status(200).json({msg: 'Post updated'})
 })
 
-app.delete('/api/posts/:id', (req, res) => {
+app.delete('/api/posts/:id', (req: Request, res: Response) => {
     const {id} = req.params;
     posts = posts.filter(post => post.id !== Number(id));
     res.status(200).json({msg: 'Post deleted'})

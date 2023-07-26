@@ -3,10 +3,14 @@ import "./App.css";
 import { API_BASE_URL } from "./constants";
 import Post from "./Post";
 
+type PostData = {
+  id: number;
+  text: string;
+}
+
 function App() {
   const inputRef = useRef();
-  const [backendData, setBackendData] = useState([])
-  const [text, setText] = useState([])
+  const [backendData, setBackendData] = useState<PostData[]>([])
   const fetchBackend = () => {
     fetch(API_BASE_URL)
     .then(res => res.json())
@@ -59,12 +63,14 @@ function App() {
     let sortedPosts = [...backendData ]
     // @ts-ignore
     sortedPosts.sort((a, b) => a.id-b.id)
+    setBackendData(sortedPosts)
   }
 
   const handleReverseSort = () => {
     let sortedPosts = [...backendData ]
     // @ts-ignore
     sortedPosts.sort((a, b) => b.id-a.id)
+    setBackendData(sortedPosts)
   }
 
   return <div className="main-content">
